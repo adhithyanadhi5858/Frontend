@@ -1,11 +1,11 @@
 import React from 'react'
 
-function CartPage() {
+function ContactPage() {
   return (
     <div>
-      Cart
+      Contact
     </div>
   )
 }
 
-export default CartPage
+export default ContactPage

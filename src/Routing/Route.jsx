@@ -1,13 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 import UserLayout from "../layout/UserLayout"
-import ErrorPage from "../pages/ErrorPage";
-import Login from "../pages/LoginPage";
-import Register from "../pages/RegisterPage";
-import ProductPage from "../pages/ProductPage";
-import CartPage from "../pages/CartPage";
-import AdmineDashBoard from "../pages/AdmineDashBoard";
-import ProfilePage from "../pages/ProfilePage";
-import HomePage from "../pages/HomePage";
+import ErrorPage from "../pages/User/ErrorPage"
+import Register from "../pages/User/RegisterPage";
+import Login from "../pages/User/LoginPage"
+import ProductPage from "../pages/User/ProductDetailsPage";
+import CartPage from "../pages/User/CartPage";
+import ProfilePage from "../pages/User/ProfilePage";
+import ProductsPage from "../pages/User/ProductsPage";
+import HomePage from "../pages/User/HomePage";
+import WhishListPage from "../pages/User/WhishListPage";
+import ContactPage from "../pages/User/ContactPage";
+import AboutPage from "../pages/User/AboutPage";
+import OrdersPage from "../pages/User/OrdersPage";
+import UserProtectionPage from "./UserProtectionPage";
+import AdmineLayout from "../layout/AdmineLayout";
+import AdmineHome from "../pages/Admine/AdmineHome";
+import AdmineRegisterPage from "../pages/Admine/AdmineRegister";
+import AdmineLoginPage from "../pages/Admine/AdmineLogin";
+import AdmineError from "../pages/Admine/AdmineError";
+import AdminProfile from "../pages/Admine/AdmineProfile";
 
 
 export const router = createBrowserRouter([
@@ -18,7 +29,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />
+        element: <HomePage/>
+      },
+      {
+        path: "/products",
+        element: <ProductsPage />
       },
       {
         path: "/login",
@@ -29,23 +44,65 @@ export const router = createBrowserRouter([
         element: <Register />
       },
       {
-        path: "/product-details",
+        path: "/product-details/:productId",
         element: <ProductPage />
       },
       {
-        path: "/cart",
-        element: <CartPage />
+        path: "/contact",
+        element: <ContactPage/>
       },
       {
-        path: "admine-dashboard",
-        element: <AdmineDashBoard />
+        path: "/about",
+        element: <AboutPage/>
       },
       {
-        path: "/profile",
-        element: <ProfilePage />
-      }
+        path: "/user",
+        element: <UserProtectionPage/>,
+        children:[
+          {
+            path: "profile",
+            element: <ProfilePage />
+          },
+          {
+            path: "whishlist",
+            element: <WhishListPage/>
+          },
+          {
+            path: "cart",
+            element: <CartPage />
+          },
+          {
+            path: "orders",
+            element: <OrdersPage/>
+          },
+        ]
+      },
 
     ]
   },
+  {
+    path:"/admine",
+    element:<AdmineLayout/>,
+    errorElement:<AdmineError/>,
+    children:[
+      {
+        path:"",
+        element:<AdmineHome/>
+      },
+      {
+        path:"register",
+        element:<AdmineRegisterPage/>
+      },
+      {
+        path:"login",
+        element:<AdmineLoginPage/>
+      },
+      {
+        path:"profile",
+        element:<AdminProfile/>
+      },
+
+    ]
+  }
 
 ]);
