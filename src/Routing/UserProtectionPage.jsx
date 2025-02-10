@@ -1,14 +1,15 @@
 import React from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 function UserProtectionPage() {
 
-   const navigate =useNavigate()
+  const {isUserAuth,userData} = useSelector((state) => state.user)
 
   
   return (
     <div>
-      
+      <Outlet/>
     </div>
   )
 }

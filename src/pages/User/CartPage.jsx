@@ -5,14 +5,14 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function CartPage() {
 
-  const [cart, setCart] = useState()
+  const [cart, setCart] = useState([])
 
   const navigate = useNavigate
 
   const fetchCart = () => {
-    axiosInstance.get("/cart/all-cart-items")
+    axiosInstance.get("/api/cart/all-cart-items")
       .then(res => {
-        console.log("res==", res)
+        console.log("res==", res.data)
         setCart(res.data)
       })
       .catch(err => {
@@ -36,6 +36,8 @@ function CartPage() {
 
   useEffect(() => {
     fetchCart()
+    console.log(cart);
+    
   }, [])
 
 
@@ -51,10 +53,10 @@ function CartPage() {
         <div className="bg-white shadow-md rounded-lg p-4">
           {cart.map(item => (
             <div key={item._id} className="flex items-center justify-between p-3 border-b">
-              <img src={item.images[0]?.url} alt={item.name} className="w-16 h-16 object-cover rounded" />
-              <Link to={`/product/${item._id}`} className="flex-1 ml-4 text-gray-800">{item.name}</Link>
-              <p className="text-gray-700">${item.price}</p>
-              <p className="text-gray-600">Qty: {item.qty}</p>
+              <img src={item.productId.image} alt={item.productId.title} className="w-16 h-16 object-cover rounded" />
+              <Link to={`/product/${item.productId._id}`} className="flex-1 ml-4 text-gray-800">{item.productId.title}</Link>
+              <p className="text-gray-700">${item.productId.price}</p>
+              <p className="text-gray-600">Qty: {item.count}</p>
               <button
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                 onClick={() => deleteItems(item._id)}
@@ -65,7 +67,7 @@ function CartPage() {
           ))}
           <div className="text-right mt-4">
             <h3 className="text-lg font-bold">
-              Total: ${cart.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
+              Total: ${cart.reduce((acc, item) => acc + item.productId.price * item.count, 0).toFixed(2)}
             </h3>
             <button
               className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

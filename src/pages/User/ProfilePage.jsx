@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 
 const ProfilePage = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
+
+  const fetchUserProfile =  () => {
+   
+    axiosInstance.get("/api/user/profile")
+    .then(res=>{
+      setUser(res.data);
+      console.log()
+    })   
+    .catch(error=>{
+      console.log(error);
+    })
+  };
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const { data } = await axiosInstance.get("/api/user/profile");
-        setUser(data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     fetchUserProfile();
   }, []);
 
@@ -38,7 +41,7 @@ const ProfilePage = () => {
 
       <h3 className="text-xl font-semibold mt-6">Order History</h3>
       <ul className="mt-3">
-        {user.orders.length > 0 ? (
+        {/* {user.orders.length > 0 ? (
           user.orders.map((order) => (
             <li key={order._id} className="border p-2 rounded my-2">
               Order ID: {order._id} - Status: {order.status}
@@ -46,7 +49,7 @@ const ProfilePage = () => {
           ))
         ) : (
           <p>No orders found.</p>
-        )}
+        )} */}
       </ul>
     </div>
   );

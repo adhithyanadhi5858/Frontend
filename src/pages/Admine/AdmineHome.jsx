@@ -8,41 +8,42 @@ const AdminHomePage = () => {
     revenue: 0,
     products: 0,
   });
+  const [orders, setOrders] = useState()
 
-  const [orders,setOrders]=useState()
-
- const getOrders = ()=>{
-  axiosInstance.get("/api/order/get-all-orders")
-  .then(res=>{
-    console.log(res.data)
-    setStats({
-      orders:res.data.length
-    })
-  })
-  .catch(error=>{
-    console.log(error)
-  })
- }
-
-  const getUsers = ()=>{
-    axiosInstance.get("/api/user/get-all-users")
-    .then(res=>{
-      console.log(res.data)
+  const admineDashBoard = () => {
+    axiosInstance.get("/api/admine/admine-dashboard")
+      .then(res => {
         setStats({
-          users:res.data.length
+          users: res.data.data.totalUsers,
+          orders: res.data.data.totalOrders,
+          products: res.data.data.totalProducts
         })
-       
-    })
-    .catch(error=>{
-      console.log(error)
-    })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
-  // useEffect(() => {
-  // getUsers()
-  
-  // }, []);
 
- 
+  const getOrders = () => {
+    axiosInstance.get("/api/order/get-all-orders")
+      .then(res => {
+        console.log(res.data)
+        setOrders(res.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+
+  useEffect(() => {
+
+    admineDashBoard()
+    getOrders()
+
+  }, [])
+
+
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -69,7 +70,7 @@ const AdminHomePage = () => {
       </div>
 
       {/* Recent Orders Table */}
-      <div className="mt-6 bg-white shadow-lg rounded-lg p-4">
+      {/* <div className="mt-6 bg-white shadow-lg rounded-lg p-4">
         <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
         <table className="table w-full">
           <thead>
@@ -81,30 +82,25 @@ const AdminHomePage = () => {
             </tr>
           </thead>
           <tbody>
-            {orders > 0 ? (
-              orders.map((order,index) => (
+            {/* {
+              orders?.map((orders,index)=>(
                 <tr key={order.index}>
-                  <td>{}</td>
-                  <td>{}</td>
+                  <td>{order._id}</td>
+                  <td>{order.userId}</td>
                   <td>
                     <span className={`badge ${order.status === "Completed" ? "badge-success" : "badge-warning"}`}>
                       {order.status}
                     </span>
                   </td>
-                  <td>${}</td>
+                  <td>${order.productId}</td>
                 </tr>
               ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center py-4">
-                  No recent orders.
-                </td>
-              </tr>
-            )}
-
+               
+            } */}
+{/* 
           </tbody>
         </table>
-      </div>
+      </div> */} 
     </div>
   );
 };

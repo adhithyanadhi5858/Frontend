@@ -1,30 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../../config/axiosInstance";
+
 
 const WishlistPage = () => {
-  const [wishlist, setWishlist] = useState([
-    {
-      id: 1,
-      name: "Wireless Headphones",
-      price: 99,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 2,
-      name: "Smart Watch",
-      price: 149,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 3,
-      name: "Gaming Mouse",
-      price: 59,
-      image: "https://via.placeholder.com/100",
-    },
-  ]);
 
-  const removeFromWishlist = (id) => {
-    setWishlist(wishlist.filter((item) => item.id !== id));
-  };
+  const [wishlist,setWishlist] = useState([])
+ 
+  const getWhishlist = ()=>{
+    axiosInstance.get("/api/whish-list/all-whish-list")
+    .then(res=>{
+       setWishlist(res.data)
+       
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+   
+  useEffect(()=>{
+    getWhishlist()
+    
+  })
 
   return (
     <div className="min-h-screen p-6 bg-gray-100">
@@ -44,15 +40,15 @@ const WishlistPage = () => {
             </thead>
             <tbody>
               {wishlist.map((item) => (
-                <tr key={item.id}>
+                <tr key={item._id}>
                   <td className="flex items-center space-x-4">
-                    <img src={item.image} alt={item.name} className="w-12 h-12 rounded" />
-                    <span>{item.name}</span>
+                    <img src={item.productId.image} alt={item.productId.title} className="w-12 h-12 rounded" />
+                    <span>{item.productId.title}</span>
                   </td>
-                  <td>${item.price}</td>
+                  <td>${item.productId.price}</td>
                   <td>
                     <button className="btn btn-success btn-sm mr-2">Add to Cart</button>
-                    <button onClick={() => removeFromWishlist(item.id)} className="btn btn-error btn-sm">
+                    <button onClick={() => removeFromWishlist(item._id)} className="btn btn-error btn-sm">
                       Remove
                     </button>
                   </td>

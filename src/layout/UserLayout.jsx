@@ -9,13 +9,13 @@ import { saveUser } from '../redux/features/userSlice'
 
 function UserLayout() {
 
-  const {isUserAuth} = useSelector((state) => state.user)
+  const {isUserAuth,userData} = useSelector((state) => state.user)
+ 
   const dispatch = useDispatch()
 
   const checkUser = ()=>{
     axiosInstance.get("/api/user/check")
     .then(res=>{
-      console.log(res.data)
       dispatch(saveUser(res.data))
       
     })
@@ -27,7 +27,7 @@ function UserLayout() {
   }
 
   useEffect(()=>{
-    // checkUser()
+     checkUser()
   },[])
 
   return (

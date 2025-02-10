@@ -19,6 +19,9 @@ import AdmineRegisterPage from "../pages/Admine/AdmineRegister";
 import AdmineLoginPage from "../pages/Admine/AdmineLogin";
 import AdmineError from "../pages/Admine/AdmineError";
 import AdminProfile from "../pages/Admine/AdmineProfile";
+import AdminOrderPage from "../pages/Admine/AdminOrderPage";
+import AdminProductsPage from "../pages/Admine/AdminProductPage";
+import AdminUsersPage from "../pages/Admine/AdminUsers";
 
 
 export const router = createBrowserRouter([
@@ -101,6 +104,20 @@ export const router = createBrowserRouter([
         path:"profile",
         element:<AdminProfile/>
       },
+      {
+        path:"orders",
+        element:<AdminOrderPage/>
+      },
+      {
+        path:"products",
+        element:<AdminProductsPage/>
+      },
+      {
+        path:"users",
+        element:<AdminUsersPage/>
+      },
+
+
 
     ]
   }

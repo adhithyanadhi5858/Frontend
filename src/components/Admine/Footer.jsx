@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 function Footer() {
   return (
@@ -21,6 +23,7 @@ function Footer() {
           Providing reliable tech since 2025
         </p>
         <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
+        <Link to={"/"}>Are You User ?</Link>
       </aside>
       <nav>
         <div className="grid grid-flow-col gap-4">

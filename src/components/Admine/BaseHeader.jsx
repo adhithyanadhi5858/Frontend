@@ -23,14 +23,13 @@ function BaseHeader() {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li ><Link to={"/admine"}>Homepage</Link></li>
                         <li ><Link to={'/admine/login'}>Login</Link></li>
                         <li ><Link to={"/admine/register"}>Sign Up</Link></li>
                     </ul>
                 </div>
             </div>
             <div className="navbar-center">
-                <Link to={"/admine"} className="btn btn-ghost text-xl text-neutral-content">VIBBORA</Link>
+                <Link className="btn btn-ghost text-xl text-neutral-content">VIBBORA</Link>
             </div>
             <div className="navbar-end">
                 <button className="btn btn-ghost btn-circle text-neutral-content">
