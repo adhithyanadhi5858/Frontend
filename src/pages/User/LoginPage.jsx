@@ -17,12 +17,12 @@ function Login() {
     const onSubmit = async (data) => {
 
         try {
-            axiosInstance.post("/api/user/login")
+            axiosInstance.post("/api/user/login",data)
                 .then(res => {
                     alert(res.data.message)
                     console.log(res.data)
                     navigate("/user/profile")
-                    dispatch(saveUser(res.data))
+                    dispatch(saveUser(res.data.user))
                 })
         } catch (error) {
             console.log(error)

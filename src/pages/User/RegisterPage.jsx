@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { axiosInstance } from '../../config/axiosInstance'
+import { useSelector, useDispatch } from 'react-redux'
+import { saveUser } from '../../redux/features/userSlice';
 
 function Register() {
+  const { isUserAuth, userData } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
 
  const navigate = useNavigate()
  const { register, handleSubmit } = useForm();
@@ -17,6 +21,7 @@ function Register() {
         .then(res=>{
             alert(res.data.message)
             navigate("/user/profile")
+            dispatch(saveUser(res.data.newUser))
         })
     } catch (error) {
         console.log(error)

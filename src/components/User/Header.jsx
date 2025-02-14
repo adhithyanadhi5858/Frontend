@@ -1,7 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosInstance } from "../../config/axiosInstance";
 
 function Header() {
+
+  const navigate = useNavigate()
+
+  const Logout = ()=>{
+    axiosInstance.get("/api/user/logout")
+    .then(res=>{
+      alert(res.data.message)
+      navigate("/login")
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
   return (
     <div className="navbar bg-primary-100 bg-primary">
       <div className="flex-1">
@@ -94,7 +108,7 @@ function Header() {
               </Link>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><a onClick={Logout}>Logout</a></li>
           </ul>
         </div>
       </div>

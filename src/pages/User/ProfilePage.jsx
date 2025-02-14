@@ -28,7 +28,7 @@ const ProfilePage = () => {
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-lg">
       <div className="flex items-center space-x-4">
         <img
-          src={user.avatar || "https://via.placeholder.com/150"}
+          src={user.image || "https://via.placeholder.com/150"}
           alt="Profile"
           className="w-24 h-24 rounded-full border border-gray-300"
         />

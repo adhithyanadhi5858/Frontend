@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import { useForm } from "react-hook-form";
 
 const ProductDetails = () => {
-
   const params = useParams()
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { productId } = params
+  const [review, setReview] = useState()
+  const[comment,setComment ]=useState()
 
-
+// fetch products
   const fetchProduct = async () => {
     try {
       axiosInstance.get(`/api/products/product-details/${productId}`)
@@ -20,7 +22,6 @@ const ProductDetails = () => {
         .catch(error => {
           console.log(error)
         })
-
     } catch (err) {
       setError("Product not found.");
     } finally {
@@ -28,12 +29,27 @@ const ProductDetails = () => {
     }
   };
 
+
+  // fetchReview
+  const fetchReviews = () => {
+    axiosInstance.get(`/api/review/get-review/${productId}`)
+      .then(res => {
+        setReview(res.data)
+      })
+  }
+
+
+
   useEffect(() => {
-
     fetchProduct();
-
   }, []);
 
+  useEffect(() => {
+    fetchReviews()
+  })
+
+
+  // add to cart
   const AddToCart = () => {
     axiosInstance.post("/api/cart/add-to-cart", productId)
       .then(res => {
@@ -43,6 +59,23 @@ const ProductDetails = () => {
         console.log("cart error===", error)
       })
   }
+const InputHandler=(e)=>{
+  
+
+}
+  // add comment
+  const onSubmit =(e) => {
+    e.preventDefault()
+          try {
+              axiosInstance.post("/api/review/add-review",comment,productId)
+                  .then(res => {
+                      alert(res.data.message)
+                      console.log(res.data)
+                  })
+          } catch (error) {
+              console.log(error)
+          }
+      }
 
   if (loading) return <p className="text-center text-lg">Loading...</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
@@ -113,21 +146,36 @@ const ProductDetails = () => {
         </div>
       </div>
 
+
+      {/* Add Comment */}
+      <div className="mt-12">
+        <h3 className="text-2xl font-bold mb-4">Add Your Comment</h3>
+        <form action="" onSubmit={onSubmit} className="space-x-4 mt-6 flex">
+          <input
+           onChange={InputHandler}
+            type="text"
+            placeholder="Add Your Comment"
+            className="input input-bordered input-primary w-full max-w-xs" />
+            <input type="Submit"  className="btn btn-primary"/>
+        </form>
+      </div>
+
+
       {/* Product Reviews */}
-       {/* <div className="mt-12">
+      <div className="mt-12">
         <h3 className="text-2xl font-bold mb-4">Customer Reviews</h3>
-        {product.reviews.length > 0 ? (
-          product.reviews.map((review, index) => (
+        {review > 0 ? (
+          review.map((review, index) => (
             <div key={index} className="border p-4 rounded-lg mb-4">
               <p className="text-gray-700">{review.comment}</p>
-              <p className="text-sm text-gray-500">- {review.user}</p>
+              <p className="text-sm text-gray-500">- {review.userId}</p>
             </div>
           ))
         ) : (
           <p className="text-gray-500">No reviews yet.</p>
         )}
-      </div> */}
-    </div>
+      </div>
+    </div >
   );
 
 };
