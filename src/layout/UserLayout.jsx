@@ -10,7 +10,7 @@ import { saveUser } from '../redux/features/userSlice'
 function UserLayout() {
 
   const {isUserAuth,userData} = useSelector((state) => state.user)
- 
+ console.log("Is user Auth ===",isUserAuth)
   const dispatch = useDispatch()
 
   const checkUser = ()=>{

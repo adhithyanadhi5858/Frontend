@@ -1,32 +1,43 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+  const fetchUsers = async () => {
+    try {
+      axiosInstance.get("api/user/get-all-users")
+      .then(res=>{
+        console.log(res.data)
+        setUsers(res.data)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch Users
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:5000/api/admin/users");
-        setUsers(data.users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUsers();
   }, []);
 
   // Delete User
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
-      setUsers(users.filter(user => user._id !== id));
+      axiosInstance.delete(`api/user/delete/${id}`)
+      .then(res=>{
+        alert(res.data.message)
+      })
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -36,13 +47,14 @@ const AdminUsersPage = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Admin Users</h2>
+      <h2 className="text-2xl font-bold mb-4">All Users List</h2>
 
       {/* User Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>
+            <th className="px-4 py-2">User ID</th>
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Role</th>
@@ -52,9 +64,10 @@ const AdminUsersPage = () => {
           <tbody>
             {users.map(user => (
               <tr key={user._id} className="border-t">
+                <td className="px-4 py-2">{user._id}</td>
                 <td className="px-4 py-2">{user.name}</td>
                 <td className="px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">{user.isAdmin ? "Admin" : "User"}</td>
+                <td className="px-4 py-2">{user.role=="admine" ? "Admin" : "User"}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => deleteUser(user._id)}

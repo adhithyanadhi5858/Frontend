@@ -107,7 +107,7 @@ function Header() {
                 
               </Link>
             </li>
-            <li><a>Settings</a></li>
+            
             <li><a onClick={Logout}>Logout</a></li>
           </ul>
         </div>

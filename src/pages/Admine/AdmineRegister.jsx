@@ -15,6 +15,7 @@ const AdmineRegisterPage = () => {
               alert(res.data.message)
               console.log(res.data)
               navigate("/admine/profile")
+              dispatch(saveUser(res.data))
           })
       } catch (error) {
           console.log(error)

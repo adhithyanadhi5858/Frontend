@@ -22,6 +22,7 @@ import AdminProfile from "../pages/Admine/AdmineProfile";
 import AdminOrderPage from "../pages/Admine/AdminOrderPage";
 import AdminProductsPage from "../pages/Admine/AdminProductPage";
 import AdminUsersPage from "../pages/Admine/AdminUsers";
+import AdminUpdateProduct from "../pages/Admine/AdmineUpdateProduct";
 
 
 export const router = createBrowserRouter([
@@ -116,7 +117,10 @@ export const router = createBrowserRouter([
         path:"users",
         element:<AdminUsersPage/>
       },
-
+      {
+        path:"update/:productId",
+        element:<AdminUpdateProduct/>
+      },
 
 
     ]

@@ -7,7 +7,6 @@ const AdminProfile = () => {
   const getProfile = ()=>{
     axiosInstance.get("/api/admine/profile")
     .then(res=>{
-        console.log(res.data)
         setAdmin({
             name:res.data.name,
             email:res.data.email,

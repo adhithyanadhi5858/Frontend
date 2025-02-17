@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const AdminOrderPage = () => {
   const [orders, setOrders] = useState([]);
@@ -10,8 +11,14 @@ const AdminOrderPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/admin/orders");
-        setOrders(data.orders);
+       axiosInstance.get("api/order/get-all-orders")
+       .then(res=>{
+        setOrders(res.data);
+       })
+       .catch(err=>{
+        console.log(err)
+       })
+        
       } catch (error) {
         console.error("Error fetching orders:", error);
       } finally {
@@ -25,7 +32,7 @@ const AdminOrderPage = () => {
   // Update Order Status
   const updateStatus = async (orderId, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/orders/${orderId}`, { status });
+      await axiosInstance.put(`api/order/update/${orderId}`, { status });
       setOrders(orders.map(order => order._id === orderId ? { ...order, status } : order));
     } catch (error) {
       console.error("Error updating order:", error);
@@ -42,8 +49,9 @@ const AdminOrderPage = () => {
           <thead className="bg-gray-200">
             <tr>
               <th className="px-4 py-2">Order ID</th>
-              <th className="px-4 py-2">Customer</th>
-              <th className="px-4 py-2">Total Price</th>
+              <th className="px-4 py-2">Customer Name</th>
+              <th className="px-4 py-2">Customer Id</th>
+              {/* <th className="px-4 py-2">Total Price</th> */}
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Action</th>
             </tr>
@@ -52,16 +60,17 @@ const AdminOrderPage = () => {
             {orders.map(order => (
               <tr key={order._id} className="border-t">
                 <td className="px-4 py-2">{order._id}</td>
-                <td className="px-4 py-2">{order.customerName}</td>
-                <td className="px-4 py-2">${order.totalPrice.toFixed(2)}</td>
+                <td className="px-4 py-2">{order.userId.name}</td>
+                <td className="px-4 py-2">{order.userId._id}</td>
+                {/* <td className="px-4 py-2">${order.totalPrice.toFixed(2)}</td> */}
                 <td className="px-4 py-2">
                   <span className={`px-2 py-1 rounded text-white 
-                    ${order.status === "Pending" ? "bg-yellow-500" : "bg-green-500"}`}>
-                    {order.status}
+                    ${order.orderStatus === "Pending" ? "bg-yellow-500" : "bg-green-500"}`}>
+                    {order.orderStatus}
                   </span>
                 </td>
                 <td className="px-4 py-2">
-                  {order.status !== "Delivered" && (
+                  {order.orderStatus !== "Delivered" && (
                     <button
                       onClick={() => updateStatus(order._id, "Delivered")}
                       className="px-3 py-1 bg-blue-500 text-white rounded flex items-center gap-2"

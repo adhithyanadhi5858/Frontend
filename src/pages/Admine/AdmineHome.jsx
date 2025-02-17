@@ -70,37 +70,36 @@ const AdminHomePage = () => {
       </div>
 
       {/* Recent Orders Table */}
-      {/* <div className="mt-6 bg-white shadow-lg rounded-lg p-4">
+      <div className="mt-6 bg-white shadow-lg rounded-lg p-4">
         <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
         <table className="table w-full">
           <thead>
             <tr className="bg-gray-200">
               <th>Order ID</th>
-              <th>Customer</th>
+              <th>Customer ID</th>
               <th>Status</th>
-              <th>Total</th>
+              <th>Product ID</th>
             </tr>
           </thead>
           <tbody>
-            {/* {
-              orders?.map((orders,index)=>(
-                <tr key={order.index}>
+            {
+              orders?.map((order,index)=>(
+                <tr key={order._id}>
                   <td>{order._id}</td>
-                  <td>{order.userId}</td>
+                  <td>{order.userId._id}</td>
                   <td>
-                    <span className={`badge ${order.status === "Completed" ? "badge-success" : "badge-warning"}`}>
-                      {order.status}
+                    <span className={`badge ${order.orderStatus === "Completed" ? "badge-success" : "badge-warning"}`}>
+                      {order.orderStatus}
                     </span>
                   </td>
-                  <td>${order.productId}</td>
+                  <td>{order.productId._id}</td>
                 </tr>
               ))
                
-            } */}
-{/* 
+            }
           </tbody>
         </table>
-      </div> */} 
+      </div> 
     </div>
   );
 };
