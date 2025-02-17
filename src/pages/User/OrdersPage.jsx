@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../../config/axiosInstance";
 
 const OrdersPage = () => {
   const [orders] = useState([
@@ -6,6 +7,23 @@ const OrdersPage = () => {
     { id: "ORD124", date: "2024-02-08", total: 899, status: "Shipped" },
     { id: "ORD125", date: "2024-02-05", total: 1299, status: "Delivered" },
   ]);
+
+  const [order,setOrders]=useState()
+
+  const getOrders=()=>{
+     axiosInstance.get("/api/order/get-order")
+     .then(res=>{
+      console.log(res)
+
+     })
+     .catch(err=>{
+      console.log(err)
+     })
+  }
+
+  useEffect(()=>{
+    getOrders()
+  })
 
   return (
     <div className="min-h-screen p-6 bg-gray-100">

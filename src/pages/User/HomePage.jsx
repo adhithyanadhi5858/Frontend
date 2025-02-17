@@ -58,7 +58,7 @@ const HomePage = () => {
       <section className="hero min-h-screen bg-gray-100">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img
-            src="src/media/31TEA0qrUBL._SY445_SX342_QL70_FMwebp_.webp"
+            src="heroproduct.webp"
             className="max-w-sm rounded-lg shadow-2xl"
             alt="Hero Product"
           />

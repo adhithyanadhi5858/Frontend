@@ -23,6 +23,7 @@ import AdminOrderPage from "../pages/Admine/AdminOrderPage";
 import AdminProductsPage from "../pages/Admine/AdminProductPage";
 import AdminUsersPage from "../pages/Admine/AdminUsers";
 import AdminUpdateProduct from "../pages/Admine/AdmineUpdateProduct";
+import AdmineProtection from "./AdmineProtection";
 
 
 export const router = createBrowserRouter([
@@ -94,33 +95,38 @@ export const router = createBrowserRouter([
         element:<AdmineHome/>
       },
       {
-        path:"register",
-        element:<AdmineRegisterPage/>
-      },
-      {
         path:"login",
         element:<AdmineLoginPage/>
       },
       {
-        path:"profile",
-        element:<AdminProfile/>
-      },
-      {
-        path:"orders",
-        element:<AdminOrderPage/>
-      },
-      {
-        path:"products",
-        element:<AdminProductsPage/>
-      },
-      {
-        path:"users",
-        element:<AdminUsersPage/>
-      },
-      {
-        path:"update/:productId",
-        element:<AdminUpdateProduct/>
-      },
+        path:"/admine-auth",
+        element:<AdmineProtection/>,
+        children :[
+          {
+            path:"orders",
+            element:<AdminOrderPage/>
+          },
+          {
+            path:"products",
+            element:<AdminProductsPage/>
+          },
+          {
+            path:"users",
+            element:<AdminUsersPage/>
+          },
+          {
+            path:"update/:productId",
+            element:<AdminUpdateProduct/>
+          },
+          {
+            path:"profile",
+            element:<AdminProfile/>
+          },
+       
+       ]
+
+      } 
+     
 
 
     ]

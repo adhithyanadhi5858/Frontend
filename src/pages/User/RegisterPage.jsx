@@ -39,7 +39,7 @@ function Register() {
               <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                   alt="Your Company"
-                  src="src/media/Vibbora_Logo__White_-removebg-preview.png"
+                  src="logo.png"
                   className="mx-auto h-10 w-auto"
                 />
                 <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">

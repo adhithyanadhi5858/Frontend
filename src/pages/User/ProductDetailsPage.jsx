@@ -35,6 +35,7 @@ const ProductDetails = () => {
     axiosInstance.get(`/api/review/get-review/${productId}`)
       .then(res => {
         setReview(res.data)
+        console.log(review)
       })
   }
 
@@ -46,7 +47,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchReviews()
-  })
+  },[comment])
 
 
   // add to cart
@@ -60,14 +61,14 @@ const ProductDetails = () => {
       })
   }
 const InputHandler=(e)=>{
-  
+  setComment(e.target.value)
 
 }
   // add comment
   const onSubmit =(e) => {
     e.preventDefault()
           try {
-              axiosInstance.post("/api/review/add-review",comment,productId)
+              axiosInstance.post("/api/review/add-review",{comment,productId})
                   .then(res => {
                       alert(res.data.message)
                       console.log(res.data)
@@ -168,7 +169,7 @@ const InputHandler=(e)=>{
           review.map((review, index) => (
             <div key={index} className="border p-4 rounded-lg mb-4">
               <p className="text-gray-700">{review.comment}</p>
-              <p className="text-sm text-gray-500">- {review.userId}</p>
+              <p className="text-sm text-gray-500">- {review.userId.name}</p>
             </div>
           ))
         ) : (
