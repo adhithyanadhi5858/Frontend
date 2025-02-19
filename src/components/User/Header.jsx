@@ -1,21 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import {  useDispatch } from 'react-redux'
+import { clearUser } from "../../redux/features/userSlice";
 
 function Header() {
-
+const dispatch = useDispatch()
   const navigate = useNavigate()
+   const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      phone: "",
+      image: "",
+    });
+    const [user, setUser] = useState(null);
 
   const Logout = ()=>{
     axiosInstance.get("/api/user/logout")
     .then(res=>{
       alert(res.data.message)
+      dispatch(clearUser())
       navigate("/login")
     })
     .catch(error=>{
       console.log(error)
     })
   }
+
+  const fetchUserProfile = () => {
+    axiosInstance.get("api/user/profile")
+      .then(res => {
+        setUser(res.data);
+        setFormData({
+          name: res.data.name,
+          email: res.data.email,
+          image: res.data.image || "",
+        });
+      })   
+      .catch(error => {
+        console.log(error);
+      });
+
+      useEffect(()=>{
+        fetchUserProfile()
+      },[])
+  };
   return (
     <div className="navbar bg-primary-100 bg-primary">
       <div className="flex-1">
@@ -39,7 +68,7 @@ function Header() {
       <div className="flex-1">
         <Link to={"/contact"} className="btn btn-ghost text-md text-neutral-content">Contact</Link>
       </div>
-      <div>
+      {/* <div>
             <label className="input input-bordered flex items-center gap-2">
               <input type="text" className="grow" placeholder="Search" />
               <svg
@@ -53,7 +82,7 @@ function Header() {
                   clipRule="evenodd" />
               </svg>
             </label>
-          </div>
+          </div> */}
       <div className="flex-none">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -89,7 +118,7 @@ function Header() {
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img
-                src="https://cdn.vectorstock.com/i/1000v/92/16/default-profile-picture-avatar-user-icon-vector-46389216.avif" />
+                src={formData.image} />
             </div>
           </div>
           <ul

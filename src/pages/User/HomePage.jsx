@@ -1,31 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 
 
 const HomePage = () => {
- const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
- const catogaries =[
-  {
-    name:"Electronics",
-    image:"https://i.ytimg.com/vi/lqcsWt9PbTk/hqdefault.jpg"
-  },
-  {
-    name:"kitchen",
-    image:"https://cdn.create.vista.com/downloads/d28a7522-bbb6-45d2-8a4f-50b36523c99c_360.jpeg"
-  },
-  {
-    name:"Home Decorations",
-    image:"https://homafy.com/wp-content/uploads/2023/05/Modern-Home-Metal-Wall-Art.jpeg"
-  },
-  {
-    name:"Cloths",
-    image:"https://d1csarkz8obe9u.cloudfront.net/posterpreviews/clothing-design-template-324a5115798ed4de9b23c9d0e9a0f21c_screen.jpg?ts=1637016158"
-  }
+  const catogaries = [
+    {
+      name: "Electronics",
+      image: "https://i.ytimg.com/vi/lqcsWt9PbTk/hqdefault.jpg"
+    },
+    {
+      name: "kitchen",
+      image: "https://cdn.create.vista.com/downloads/d28a7522-bbb6-45d2-8a4f-50b36523c99c_360.jpeg"
+    },
+    {
+      name: "Home Decorations",
+      image: "https://homafy.com/wp-content/uploads/2023/05/Modern-Home-Metal-Wall-Art.jpeg"
+    },
+    {
+      name: "Cloths",
+      image: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/clothing-design-template-324a5115798ed4de9b23c9d0e9a0f21c_screen.jpg?ts=1637016158"
+    }
 
- ]
+  ]
 
 
   const fetchProducts = async () => {
@@ -35,7 +35,7 @@ const HomePage = () => {
         .then(res => {
           setProducts(res.data)
           console.log(res.data)
-          
+
         })
         .catch(err => {
           console.log("Erorr==", err)
@@ -49,8 +49,18 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts()
-    
+
   }, [])
+
+  const AddToCart = (productId) => {
+     axiosInstance.post("/api/cart//add-to-cart",{productId})
+     .then(res=>{
+      console.log(res.data)
+     })
+     .catch(err=>{
+      console.log(err)
+     })
+  }
 
   return (
     <div className="w-full">
@@ -78,7 +88,7 @@ const HomePage = () => {
         <h2 className="text-4xl font-bold text-center mb-8">Featured Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
           {/* Product Card Example */}
-          {products.map((item,index) => (
+          {products.map((item, index) => (
             <div key={item._id} className="card bg-white shadow-lg rounded-lg">
               <figure>
                 <img
@@ -90,7 +100,8 @@ const HomePage = () => {
               <div className="card-body">
                 <h3 className="text-lg font-bold">{item.title}</h3>
                 <p className="text-gray-500">${item.price}</p>
-                <button className="btn btn-primary w-full">Add to Cart</button>
+                {/* <button  className="btn btn-primary w-full">View Product</button> */}
+                <Link to={`/product-details/${item._id}`} className="btn btn-primary">View Product</Link>
               </div>
             </div>
           ))}
@@ -101,7 +112,7 @@ const HomePage = () => {
       <section className="py-12 bg-gray-100">
         <h2 className="text-4xl font-bold text-center mb-8">Shop by Category</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 px-4">
-          {catogaries.map((category,index) => (
+          {catogaries.map((category, index) => (
             <div key={index} className="card bg-white shadow-lg rounded-lg">
               <figure>
                 <img
@@ -135,3 +146,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

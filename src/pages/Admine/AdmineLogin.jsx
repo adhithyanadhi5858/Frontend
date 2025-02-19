@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from 'react-redux'
+import { saveAdmine } from "../../redux/features/admineSlice";
 
 const AdmineLoginPage = () => {
-  
+
+   const dispatch = useDispatch()
    const navigate = useNavigate()
    const { register, handleSubmit } = useForm();
   
@@ -13,7 +16,7 @@ const AdmineLoginPage = () => {
           axiosInstance.post("/api/admine/login",data)
           .then(res=>{
               alert(res.data.message)
-              console.log(res.data)
+              dispatch(saveAdmine(res.data))
               navigate("/admine/profile")
           })
       } catch (error) {

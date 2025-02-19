@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -10,10 +10,12 @@ function UserProtectionPage() {
   const navigate = useNavigate();
 
  
+ useEffect(()=>{
   if (!isUserAuth) {
-      navigate("/login");
-      return;
-  }
+    navigate("/login");
+    return;
+}
+ },[])
 
 
   return <Outlet />;

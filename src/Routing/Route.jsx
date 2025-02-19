@@ -15,7 +15,6 @@ import OrdersPage from "../pages/User/OrdersPage";
 import UserProtectionPage from "./UserProtectionPage";
 import AdmineLayout from "../layout/AdmineLayout";
 import AdmineHome from "../pages/Admine/AdmineHome";
-import AdmineRegisterPage from "../pages/Admine/AdmineRegister";
 import AdmineLoginPage from "../pages/Admine/AdmineLogin";
 import AdmineError from "../pages/Admine/AdmineError";
 import AdminProfile from "../pages/Admine/AdmineProfile";
@@ -34,7 +33,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage/>
+        element: <HomePage />
       },
       {
         path: "/products",
@@ -54,23 +53,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contact",
-        element: <ContactPage/>
+        element: <ContactPage />
       },
       {
         path: "/about",
-        element: <AboutPage/>
+        element: <AboutPage />
       },
       {
-        path: "/user",
-        element: <UserProtectionPage/>,
-        children:[
+        path: "user",
+        element: <UserProtectionPage />,
+        children: [
           {
             path: "profile",
             element: <ProfilePage />
           },
           {
             path: "whishlist",
-            element: <WhishListPage/>
+            element: <WhishListPage />
           },
           {
             path: "cart",
@@ -78,7 +77,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "orders",
-            element: <OrdersPage/>
+            element: <OrdersPage />
           },
         ]
       },
@@ -86,47 +85,47 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path:"/admine",
-    element:<AdmineLayout/>,
-    errorElement:<AdmineError/>,
-    children:[
+    path: "admine",
+    element: <AdmineLayout />,
+    errorElement: <AdmineError />,
+    children: [
       {
-        path:"",
-        element:<AdmineHome/>
+        path: "",
+        element: <AdmineHome />
       },
       {
-        path:"login",
-        element:<AdmineLoginPage/>
+        path: "login",
+        element: <AdmineLoginPage />
       },
       {
-        path:"/admine-auth",
-        element:<AdmineProtection/>,
-        children :[
+        path: "admine-auth",
+        element: <AdmineProtection />,
+        children: [
           {
-            path:"orders",
-            element:<AdminOrderPage/>
+            path: "orders",
+            element: <AdminOrderPage />
           },
           {
-            path:"products",
-            element:<AdminProductsPage/>
+            path: "products",
+            element: <AdminProductsPage />
           },
           {
-            path:"users",
-            element:<AdminUsersPage/>
+            path: "users",
+            element: <AdminUsersPage />
           },
           {
-            path:"update/:productId",
-            element:<AdminUpdateProduct/>
+            path: "update/:productId",
+            element: <AdminUpdateProduct />
           },
           {
-            path:"profile",
-            element:<AdminProfile/>
-          },
-       
-       ]
+            path: "profile",
+            element: <AdminProfile />
+          }
 
-      } 
-     
+        ]
+
+      }
+
 
 
     ]

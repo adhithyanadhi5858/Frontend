@@ -20,15 +20,16 @@ function CartPage() {
       })
   }
 
-  const deleteItems = (productId) => {
-    axiosInstance.delete("/cart/remove-cart-item", productId)
+  const deleteItems = (cartId) => {
+    axiosInstance.delete("api/cart/remove-cart-item", { data: { cartId } })
       .then(res => {
-        alert(res.data.message)
+        alert(res.data.message);
+        fetchCart()
       })
       .catch(err => {
-        console.log("err==", err)
-      })
-  }
+        console.log("Error deleting cart item:", err);
+      });
+  };
 
   const checkoutHandler = () => {
     navigate('/');
@@ -36,7 +37,6 @@ function CartPage() {
 
   useEffect(() => {
     fetchCart()
-    console.log(cart);
     
   }, [])
 
@@ -54,7 +54,7 @@ function CartPage() {
           {cart.map(item => (
             <div key={item._id} className="flex items-center justify-between p-3 border-b">
               <img src={item.productId.image} alt={item.productId.title} className="w-16 h-16 object-cover rounded" />
-              <Link to={`/product/${item.productId._id}`} className="flex-1 ml-4 text-gray-800">{item.productId.title}</Link>
+              <Link to={`/product-details/${item.productId._id}`} className="flex-1 ml-4 text-gray-800">{item.productId.title}</Link>
               <p className="text-gray-700">${item.productId.price}</p>
               <p className="text-gray-600">Qty: {item.count}</p>
               <button

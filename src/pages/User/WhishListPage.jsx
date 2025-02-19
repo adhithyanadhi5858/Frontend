@@ -10,7 +10,7 @@ const WishlistPage = () => {
     axiosInstance.get("/api/whish-list/all-whish-list")
     .then(res=>{
        setWishlist(res.data)
-       
+      console.log(wishlist)
     })
     .catch(error=>{
       console.log(error)
@@ -20,7 +20,38 @@ const WishlistPage = () => {
   useEffect(()=>{
     getWhishlist()
     
-  })
+  },[])
+
+
+
+  const AddToCart = async (productId) => {
+    try {
+      if (!productId) {
+        alert("Invalid product ID");
+        return;
+      }
+  
+      const response = await axiosInstance.post("/api/cart/add-to-cart", { productId });
+  
+      console.log(response.data);
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert(error.response?.data?.message || "Something went wrong, please try again.");
+    }
+  };
+  
+
+  const removeFromWishlist = (id)=>{
+    axiosInstance.delete(`/api/whish-list/delete/${id}`)
+    .then(res=>{
+      alert(res.data.message)
+      getWhishlist()
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  }
 
   return (
     <div className="min-h-screen p-6 bg-gray-100">
@@ -42,13 +73,13 @@ const WishlistPage = () => {
               {wishlist.map((item) => (
                 <tr key={item._id}>
                   <td className="flex items-center space-x-4">
-                    <img src={item.productId.image} alt={item.productId.title} className="w-12 h-12 rounded" />
-                    <span>{item.productId.title}</span>
+                    <img src={item?.productId?.image} alt={item?.productId?.title} className="w-12 h-12 rounded" />
+                    <span>{item?.productId?.title}</span>
                   </td>
-                  <td>${item.productId.price}</td>
+                  <td>${item?.productId?.price}</td>
                   <td>
-                    <button className="btn btn-success btn-sm mr-2">Add to Cart</button>
-                    <button onClick={() => removeFromWishlist(item._id)} className="btn btn-error btn-sm">
+                    <button onClick={()=>AddToCart(item?.productId?._id)} className="btn btn-success btn-sm mr-2">Add to Cart</button>
+                    <button onClick={() => removeFromWishlist(item?._id)} className="btn btn-error btn-sm">
                       Remove
                     </button>
                   </td>

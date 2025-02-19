@@ -2,26 +2,30 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 
 const AdminProfile = () => {
-  const [admin, setAdmin] = useState({ });
+  const [admin, setAdmin] = useState({});
 
-  const getProfile = ()=>{
+  const getProfile = () => {
     axiosInstance.get("/api/admine/profile")
-    .then(res=>{
+      .then(res => {
         setAdmin({
-            name:res.data.name,
-            email:res.data.email,
-            role:"Administrator"
+          name: res.data.name,
+          email: res.data.email,
+          role: "Administrator"
         })
-    })
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getProfile()
-  },[])
+  }, [])
 
-  
 
- 
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
