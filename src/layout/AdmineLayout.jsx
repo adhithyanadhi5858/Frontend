@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Admine/Header'
 import Footer from '../components/Admine/Footer'
 import { Outlet, useLocation } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { axiosInstance } from '../config/axiosInstance'
 function AdmineLayout() {
 
   const { isAdmineAuth, admineData } = useSelector((state) => state.admine)
+  const [isLoading,setIsLoading] = useState(true)
   const location = useLocation()
   const dispatch = useDispatch()
 
@@ -18,10 +19,12 @@ function AdmineLayout() {
     axiosInstance.get("/api/admine/check")
       .then(res => {
         dispatch(saveAdmine(res.data))
+        setIsLoading(false)
 
       })
       .catch(error => {
         console.log(error)
+        setIsLoading(false)
       })
   }
 
@@ -29,8 +32,10 @@ function AdmineLayout() {
     checkAdmine()
   }, [location.pathname])
 
-  return (
+  
+  return isLoading ? null : (
     <>
+    
       {/* Header */}
       {
         isAdmineAuth ? <Header /> : <BaseHeader />

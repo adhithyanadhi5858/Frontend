@@ -53,6 +53,7 @@ const AdminProductsPage = () => {
           setPrice("");
           setQuantity("");
           setImage(null);
+          fetchProducts()
 
         })
         .catch(err => {
@@ -92,29 +93,16 @@ const AdminProductsPage = () => {
     fetchProducts();
   }, []);
 
-  // Create Product
-  // const createProduct = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     axiosInstance.post("api/products/create-products", newProduct)
-  //     .then(res=>{
-  //       setProducts([...products, data.product]);
-  //       setNewProduct({ name: "", price: "", category: "", stock: "", image: "" });
-  //     })
-  //     .catch(err=>{
-  //       console.log(err)
-  //     })
-  //   } catch (error) {
-  //     console.error("Error creating product:", error);
-  //   }
-  // };
-
   // Delete Product
   const deleteProduct = async (id) => {
     try {
       axiosInstance.delete(`api/products/delete/${id}`)
         .then(res => {
           alert(res.data.message)
+          fetchProducts()
+        })
+        .catch(err=>{
+          console.log(err)
         })
 
     } catch (error) {
@@ -127,50 +115,9 @@ const AdminProductsPage = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Admin Products</h2>
-
-      {/* Product Creation Form */}
-      {/* <form onSubmit={createProduct} className="bg-gray-100 p-4 mb-4 rounded">
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Product Name"
-            value={newProduct.name}
-            onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
-            className="p-2 border rounded"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            value={newProduct.price}
-            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-            className="p-2 border rounded"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Stock"
-            value={newProduct.stock}
-            onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-            className="p-2 border rounded"
-            required
-          />
-          <input
-            type="file"
-            placeholder="Image URL"
-            value={newProduct.image}
-            onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
-            className="p-2 border rounded"
-            required
-          />
-        </div>
-        <button type="submit" className="mt-4 px-4 py-2 bg-green-500 text-white rounded flex items-center gap-2">
-          <FaPlus /> Add Product
-        </button>
-      </form> */}
       <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Create Product</h2>
-        {message && <p className="text-red-500">{message}</p>}
+        {message && <p className="text-green-500">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -263,7 +210,7 @@ const AdminProductsPage = () => {
                     className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-2"
                   >
                     <FaTrash /> Delete</button>
-                    <Link to={`/update/${product._id}`}
+                    <Link to={`update/${product._id}`}
                       className="bg-yellow-500 text-white p-2 rounded">
                       Update
                     </Link>

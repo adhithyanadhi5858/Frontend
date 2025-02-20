@@ -90,17 +90,17 @@ export const router = createBrowserRouter([
     errorElement: <AdmineError />,
     children: [
       {
-        path: "",
-        element: <AdmineHome />
-      },
-      {
         path: "login",
         element: <AdmineLoginPage />
       },
       {
-        path: "admine-auth",
+        path: "",
         element: <AdmineProtection />,
         children: [
+          {
+            path: "",
+            element: <AdmineHome />
+          },
           {
             path: "orders",
             element: <AdminOrderPage />
@@ -114,7 +114,7 @@ export const router = createBrowserRouter([
             element: <AdminUsersPage />
           },
           {
-            path: "update/:productId",
+            path: "products/update/:productId",
             element: <AdminUpdateProduct />
           },
           {

@@ -10,18 +10,20 @@ import { saveUser } from '../redux/features/userSlice'
 function UserLayout() {
 
   const { isUserAuth, userData } = useSelector((state) => state.user)
+  const [isLoading,setIsLoading] = useState(true)
   const dispatch = useDispatch()
   const location = useLocation()
+
   const checkUser = () => {
     axiosInstance.get("/api/user/check")
       .then(res => {
         dispatch(saveUser(res.data))
+        setIsLoading(false)
 
       })
       .catch(error => {
         console.log(error)
-
-
+        setIsLoading(false)
       })
   }
 
@@ -29,8 +31,9 @@ function UserLayout() {
     checkUser()
   }, [location.pathname])
 
-  return (
+  return isLoading ? null : (
     <>
+    
       {/* Header */}
       {
         isUserAuth ? <Header /> : <BaseHeader />

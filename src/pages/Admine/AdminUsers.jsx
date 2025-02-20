@@ -37,6 +37,7 @@ const AdminUsersPage = () => {
       axiosInstance.delete(`api/user/delete/${id}`)
       .then(res=>{
         alert(res.data.message)
+        fetchUsers()
       })
     } catch (error) {
       console.error("Error deleting user:", error);

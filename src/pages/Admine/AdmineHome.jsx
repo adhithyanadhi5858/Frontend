@@ -86,7 +86,7 @@ const AdminHomePage = () => {
               orders?.map((order,index)=>(
                 <tr key={order._id}>
                   <td>{order._id}</td>
-                  <td>{order.userId._id}</td>
+                  <td>{order?.userId}</td>
                   <td>
                     <span className={`badge ${order.orderStatus === "Completed" ? "badge-success" : "badge-warning"}`}>
                       {order.orderStatus}

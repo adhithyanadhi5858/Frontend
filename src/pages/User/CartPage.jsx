@@ -31,13 +31,17 @@ function CartPage() {
       });
   };
 
+  const totalPrice = cart.reduce((acc, item) => {
+    return item.productId ? acc + item.productId.price * item.count : acc;
+  }, 0).toFixed(2);
+
   const checkoutHandler = () => {
     navigate('/');
   }
 
   useEffect(() => {
     fetchCart()
-    
+
   }, [])
 
 
@@ -67,7 +71,8 @@ function CartPage() {
           ))}
           <div className="text-right mt-4">
             <h3 className="text-lg font-bold">
-              Total: ${cart.reduce((acc, item) => acc + item.productId.price * item.count, 0).toFixed(2)}
+              {/* Total: ${cart.reduce((acc, item) => acc + item.productId.price * item.count, 0).toFixed(2)} */}
+              Total: ${totalPrice}
             </h3>
             <button
               className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

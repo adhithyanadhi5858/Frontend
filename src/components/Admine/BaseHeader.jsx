@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function BaseHeader() {
     return (
         <div className="navbar bg-base-100 bg-primary">
-            <div className="navbar-start text-neutral-content">
+            {/* <div className="navbar-start text-neutral-content">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                         <svg
@@ -27,11 +27,11 @@ function BaseHeader() {
                         <li ><Link to={"/admine/register"}>Sign Up</Link></li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
             <div className="navbar-center">
-                <Link className="btn btn-ghost text-xl text-neutral-content">VIBBORA</Link>
+                <h1 className="btn btn-ghost text-xl text-neutral-content">VIBBORA</h1>
             </div>
-            <div className="navbar-end">
+            {/* <div className="navbar-end">
                 <button className="btn btn-ghost btn-circle text-neutral-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ function BaseHeader() {
                         <span className="badge badge-xs badge-primary indicator-item"></span>
                     </div>
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }

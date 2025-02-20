@@ -1,11 +1,29 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaUserCircle, FaSignOutAlt, FaBars } from "react-icons/fa";
+import { axiosInstance } from "../../config/axiosInstance";
+import {  useDispatch } from 'react-redux'
+import { clearAdmine } from "../../redux/features/admineSlice";
+import {  useNavigate } from "react-router-dom";
 
 const Header = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const dispatch = useDispatch()
+
+  const AdmineLogout =()=>{
+    axiosInstance.get("api/admine/logout")
+    .then(res=>{
+       alert(res.data.message)
+       dispatch(clearAdmine())
+       navigate("")
+
+    })
+    .catch(err=>{
+
+    })
+  }
   return (
     <header className=" text-white shadow-lg bg-primary">
       <div className="container mx-auto flex items-center justify-between p-4 ">
@@ -35,7 +53,7 @@ const Header = () => {
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-40 bg-white text-black shadow-lg rounded-lg">
               <Link to="/admine/profile" className="block px-4 py-2 hover:bg-gray-200">Profile</Link>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-200 flex items-center">
+              <button onClick={AdmineLogout} className="w-full text-left px-4 py-2 hover:bg-gray-200 flex items-center">
                 <FaSignOutAlt className="mr-2" />
                 Logout
               </button>
