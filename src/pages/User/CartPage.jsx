@@ -8,18 +8,18 @@ function CartPage() {
 
   const [cart, setCart] = useState([])
 
-
-
   const fetchCart = () => {
     axiosInstance.get("/api/cart/all-cart-items")
       .then(res => {
         setCart(res.data)
+        console.log(res.data)
 
       })
       .catch(err => {
         console.log("Error==", err)
       })
   }
+
 
   const deleteItems = (cartId) => {
     axiosInstance.delete("api/cart/remove-cart-item", { data: { cartId } })
@@ -56,9 +56,10 @@ function CartPage() {
       const session = await axiosInstance.post('/api/payment/create-checkout-session', {
         products: cart.map(item => ({
           id: item.productId._id,
-          name: item.productId.title,
+          title: item.productId.title,
           image:item.productId.image,
           price: parseFloat(item.productId.price),
+          orderStatus : "Shipped",
           quantity: item.count,
         })),
       });

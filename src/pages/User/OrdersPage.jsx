@@ -34,17 +34,17 @@ const OrdersPage = () => {
             <thead>
               <tr>
                 <th>Order ID</th>
-                {/* <th>Date</th> */}
+                <th>Product</th>
                 <th>Total</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th>Ordered Date</th>
               </tr>
             </thead>
             <tbody>
                {order.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
-                  {/* <td>{order.date}</td> */}
+                 <td>{order?.productId?.title} </td>
                   <td>${order?.productId?.price}</td>
                   <td>
                     <span
@@ -59,7 +59,7 @@ const OrdersPage = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn btn-primary btn-sm">View Details</button>
+                    {order.createdAt}
                   </td>
                 </tr>
               ))}
