@@ -182,7 +182,7 @@ const AdminProductsPage = () => {
       </div>
 
       {/* Product Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-12">
         <table className="min-w-full bg-white border rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>

@@ -38,7 +38,6 @@ const ProductDetails = () => {
     console.log("Fetching reviews for product:", productId);
     const res = await axiosInstance.get(`/api/review/get-review/${productId}`);
     setReview(res.data.reviews); 
-    console.log("Review Data:", res.data.reviews);
   } catch (error) {
     console.error("Review Fetch Error:", error);
   }
@@ -149,7 +148,7 @@ const ProductDetails = () => {
           {/* Buttons */}
           <div className="mt-6 flex space-x-4">
             <button onClick={AddToCart} className="btn btn-primary">Add to Cart</button>
-            <button className="btn btn-secondary">Buy Now</button>
+            {/* <button className="btn btn-secondary">Buy Now</button> */}
             <button  onClick={addToWhish} className="btn btn-accent">Add To Whishlist</button>
           </div>
 

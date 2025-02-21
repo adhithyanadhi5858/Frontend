@@ -23,6 +23,8 @@ import AdminProductsPage from "../pages/Admine/AdminProductPage";
 import AdminUsersPage from "../pages/Admine/AdminUsers";
 import AdminUpdateProduct from "../pages/Admine/AdmineUpdateProduct";
 import AdmineProtection from "./AdmineProtection";
+import PaymentSuccess from "../pages/User/PaymentSuccesPage";
+import PaymentError from "../pages/User/PaymentErrorPage";
 
 
 export const router = createBrowserRouter([
@@ -78,6 +80,14 @@ export const router = createBrowserRouter([
           {
             path: "orders",
             element: <OrdersPage />
+          },
+          {
+            path: "payment/success",
+            element: <PaymentSuccess/>
+          },
+          {
+            path: "payment/cancel",
+            element: <PaymentError/>
           },
         ]
       },

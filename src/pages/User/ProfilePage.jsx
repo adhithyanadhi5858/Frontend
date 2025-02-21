@@ -123,7 +123,6 @@ const ProfilePage = () => {
       });
   };
  
-  console.log("profile page")
   // Fetch user orders
   const getOrders = () => {
     axiosInstance.get("api/order/get-order")
