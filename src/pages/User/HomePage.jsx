@@ -34,11 +34,11 @@ const HomePage = () => {
       axiosInstance.get("/api/products/all-products")
         .then(res => {
           setProducts(res.data)
-          console.log(res.data)
 
         })
         .catch(err => {
           console.log("Erorr==", err)
+          setProducts([])
         })
 
 

@@ -37,7 +37,7 @@ const ProductDetails = () => {
   try {
     console.log("Fetching reviews for product:", productId);
     const res = await axiosInstance.get(`/api/review/get-review/${productId}`);
-    setReview(res.data.reviews); // ✅ Ensure `reviews` is an array
+    setReview(res.data.reviews); 
     console.log("Review Data:", res.data.reviews);
   } catch (error) {
     console.error("Review Fetch Error:", error);
