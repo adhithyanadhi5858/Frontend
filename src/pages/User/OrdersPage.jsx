@@ -9,7 +9,7 @@ const OrdersPage = () => {
     axiosInstance.get("api/order/get-order")
       .then((res) => {
         setOrder(res.data.orders);
-        console.log(order);
+        console.log(res.data.orders)
         
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ const OrdersPage = () => {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   {/* <td>{order.date}</td> */}
-                  <td>${order.productId.price}</td>
+                  <td>${order?.productId?.price}</td>
                   <td>
                     <span
                       className={`badge ${order.orderStatus === "Pending"
