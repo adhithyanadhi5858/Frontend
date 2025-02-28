@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { axiosInstance } from "../../config/axiosInstance";
 
@@ -12,6 +11,7 @@ const AdminOrderPage = () => {
      axiosInstance.get("api/order/get-all-orders")
      .then(res=>{
       setOrders(res.data);
+      
      })
      .catch(err=>{
       console.log(err)
@@ -26,9 +26,8 @@ const AdminOrderPage = () => {
 
   // Fetch orders from backend
   useEffect(() => {
-    
-
     fetchOrders();
+    
   }, []);
 
   // Update Order Status
@@ -63,7 +62,7 @@ const AdminOrderPage = () => {
             {orders.map(order => (
               <tr key={order._id} className="border-t">
                 <td className="px-4 py-2">{order._id}</td>
-                <td className="px-4 py-2">{order.productId._id}</td>
+                <td className="px-4 py-2">{order.productId}</td>
                 <td className="px-4 py-2">{order.userId}</td>
                 {/* <td className="px-4 py-2">${order.totalPrice.toFixed(2)}</td> */}
                 <td className="px-4 py-2">

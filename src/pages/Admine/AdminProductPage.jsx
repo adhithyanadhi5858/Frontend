@@ -2,111 +2,77 @@ import { useEffect, useState } from "react";
 import { FaTrash, FaPlus } from "react-icons/fa";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newProduct, setNewProduct] = useState({
-    title: "",
-    price: "",
-    category: "",
-    stock: "",
-    image: "",
-  });
-
-  //start
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [image, setImage] = useState(null);
-  const [message, setMessage] = useState("");
-  const [description, setDescription] = useState("")
+  const [description, setDescription] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected file
-  };
+  const handleImageChange = (e) => setImage(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Ensure all fields are filled
     if (!title || !price || !quantity || !image) {
-      setMessage("All fields are required!");
+      toast.error("All fields are required!");
       return;
     }
 
+    setSubmitting(true);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("price", price);
     formData.append("quantity", quantity);
     formData.append("image", image);
-    formData.append("description", description)
+    formData.append("description", description);
 
     try {
-      axiosInstance.post("api/products/create-products", formData, {
+      const res = await axiosInstance.post("api/products/create-products", formData, {
         headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then(res => {
-          alert("Product Created Successfully!")
-          setMessage(res.data.message || "Product Created Successfully!");
-          setTitle("");
-          setPrice("");
-          setQuantity("");
-          setImage(null);
-          fetchProducts()
-
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
-
-
+      });
+      toast.success(res.data.message || "Product Created Successfully!");
+      setTitle("");
+      setPrice("");
+      setQuantity("");
+      setImage(null);
+      setDescription("");
+      fetchProducts();
     } catch (error) {
-      setMessage(error.response?.data?.message || "Something went wrong!");
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  //end
-
   const fetchProducts = async () => {
     try {
-      axiosInstance.get("api/products/admine-all-products")
-        .then(res => {
-          setProducts(res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
+      const res = await axiosInstance.get("api/products/admine-all-products");
+      setProducts(res.data);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      toast.error("Failed to load products!");
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-
-  // Fetch Products
   useEffect(() => {
-
     fetchProducts();
   }, []);
 
-  // Delete Product
   const deleteProduct = async (id) => {
     try {
-      axiosInstance.delete(`api/products/delete/${id}`)
-        .then(res => {
-          alert(res.data.message)
-          fetchProducts()
-        })
-        .catch(err=>{
-          console.log(err)
-        })
-
+      const res = await axiosInstance.delete(`api/products/delete/${id}`);
+      toast.success(res.data.message);
+      fetchProducts();
     } catch (error) {
-      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product!");
+      console.error(error);
     }
   };
 
@@ -114,10 +80,11 @@ const AdminProductsPage = () => {
 
   return (
     <div className="p-6">
+      <Toaster position="top-center" reverseOrder={false} />
       <h2 className="text-2xl font-bold mb-4">Admin Products</h2>
+
       <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Create Product</h2>
-        {message && <p className="text-green-500">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -175,8 +142,12 @@ const AdminProductsPage = () => {
             />
           </div>
 
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
-            Submit
+          <button
+            type="submit"
+            className={`bg-blue-500 text-white p-2 rounded w-full ${submitting ? "opacity-50 cursor-not-allowed" : ""}`}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
@@ -195,7 +166,7 @@ const AdminProductsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map(product => (
+            {products.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="px-4 py-2">{product._id}</td>
                 <td className="px-4 py-2">
@@ -203,18 +174,17 @@ const AdminProductsPage = () => {
                 </td>
                 <td className="px-4 py-2">{product.title}</td>
                 <td className="px-4 py-2">${product.price}</td>
-                <td className="px-4 py-2">{product.quantity}</td>
+                <td className="px-4 py-2">{product.quantity>0 ? product.quantity : "Out Of Stock"}</td>
                 <td className="px-4 py-2 flex gap-3">
                   <button
                     onClick={() => deleteProduct(product._id)}
                     className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-2"
                   >
-                    <FaTrash /> Delete</button>
-                    <Link to={`update/${product._id}`}
-                      className="bg-yellow-500 text-white p-2 rounded">
-                      Update
-                    </Link>
-
+                    <FaTrash /> Delete
+                  </button>
+                  <Link to={`update/${product._id}`} className="bg-yellow-500 text-white p-2 rounded">
+                    Update
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -226,3 +196,4 @@ const AdminProductsPage = () => {
 };
 
 export default AdminProductsPage;
+

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { axiosInstance } from "../../config/axiosInstance";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminUsersPage = () => {
+  
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,7 +13,6 @@ const AdminUsersPage = () => {
     try {
       axiosInstance.get("api/user/get-all-users")
       .then(res=>{
-        console.log(res.data)
         setUsers(res.data)
       })
       .catch(err=>{
@@ -36,7 +36,7 @@ const AdminUsersPage = () => {
     try {
       axiosInstance.delete(`api/user/delete/${id}`)
       .then(res=>{
-        alert(res.data.message)
+        toast.success(res.data.message);
         fetchUsers()
       })
     } catch (error) {
@@ -48,6 +48,7 @@ const AdminUsersPage = () => {
 
   return (
     <div className="p-6">
+      <Toaster position="top-center" reverseOrder={false} />
       <h2 className="text-2xl font-bold mb-4">All Users List</h2>
 
       {/* User Table */}

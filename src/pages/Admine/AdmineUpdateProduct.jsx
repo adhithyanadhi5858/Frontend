@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../config/axiosInstance";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminUpdateProduct = () => {
   const { productId } = useParams();
@@ -10,34 +11,22 @@ const AdminUpdateProduct = () => {
     price: "",
     description: "",
     quantity: "",
-    image: null, // For file upload
+    image: null,
   });
-  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-
-  const fetchProductById = () => {
-   try{
-    axiosInstance.get(`api/products/product-details/${productId}`)
-    .then((res) => {
-      if (res.data) {
-
-        setProduct(res.data);
-        console.log(product);
-        
-      }
-
-    })
-    .catch((err) => setError("Failed to fetch product details"));
-
-   }catch(error){
-    console.log(error)
-   }
-  }
-
   useEffect(() => {
-    fetchProductById()
+    const fetchProductById = async () => {
+      try {
+        const res = await axiosInstance.get(`api/products/product-details/${productId}`);
+        setProduct(res.data);
+      } catch (err) {
+        setError("Failed to fetch product details");
+        toast.error("Failed to fetch product details");
+      }
+    };
+    fetchProductById();
   }, [productId]);
 
   const handleChange = (e) => {
@@ -62,17 +51,15 @@ const AdminUpdateProduct = () => {
         formData.append("image", product.image);
       }
 
-      await axiosInstance.put(`/api/products/update/${productId}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      })
-      .then(res=>{
-        alert(res.data.message);
-        navigate("/admine/products");
-      })
+      const res = await axiosInstance.put(`/api/products/update/${productId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      
+      toast.success("Product updated successfully!");
+      navigate("/admine/products");
     } catch (err) {
       setError("Error updating product. Please try again.");
+      toast.error("Error updating product");
     } finally {
       setLoading(false);
     }
@@ -80,35 +67,34 @@ const AdminUpdateProduct = () => {
 
   return (
     <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
+      <Toaster position="top-center" reverseOrder={false} />
       <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Update Product</h2>
-
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
       <div className="space-y-4">
         <input type="text" name="title" value={product.title || ""} onChange={handleChange}
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
           placeholder="Product Name" />
 
         <input type="number" name="price" value={product.price || ""} onChange={handleChange}
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
           placeholder="Price" />
 
         <textarea name="description" value={product.description || ""} onChange={handleChange}
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
           placeholder="Description"></textarea>
 
         <input type="number" name="quantity" value={product.quantity || ""} onChange={handleChange}
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
           placeholder="Stock" />
 
         <input type="file" onChange={handleFileChange}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
           accept="image/*" />
 
-        {product.image && (
+        {product.image && typeof product.image === "string" && (
           <div className="flex justify-center mt-4">
-            <img src={URL.createObjectURL(productimage)} alt="Preview"
-              className="w-32 h-32 object-cover rounded-lg shadow-md" />
+            <img src={product.image} alt="Product" className="w-32 h-32 object-cover rounded-lg shadow-md" />
           </div>
         )}
 

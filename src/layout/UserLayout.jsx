@@ -41,7 +41,7 @@ function UserLayout() {
 
 
       {/* Page Details */}
-      <div className='min-h-96'>
+      <div className='min-h-96 pt-10'>
         <Outlet />
       </div>
 

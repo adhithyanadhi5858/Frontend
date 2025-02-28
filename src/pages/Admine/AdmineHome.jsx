@@ -27,7 +27,6 @@ const AdminHomePage = () => {
   const getOrders = () => {
     axiosInstance.get("/api/order/get-all-orders")
       .then(res => {
-        console.log(res.data)
         setOrders(res.data)
       })
       .catch(error => {
@@ -88,11 +87,11 @@ const AdminHomePage = () => {
                   <td>{order._id}</td>
                   <td>{order?.userId}</td>
                   <td>
-                    <span className={`badge ${order.orderStatus === "Completed" ? "badge-success" : "badge-warning"}`}>
+                    <span className={`badge ${order.orderStatus === "Delivered" ? "badge-success" : "badge-warning"}`}>
                       {order.orderStatus}
                     </span>
                   </td>
-                  <td>{order.productId._id}</td>
+                  <td>{order.productId}</td>
                 </tr>
               ))
                

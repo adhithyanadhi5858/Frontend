@@ -2,36 +2,40 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaUserCircle, FaSignOutAlt, FaBars } from "react-icons/fa";
 import { axiosInstance } from "../../config/axiosInstance";
-import {  useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { clearAdmine } from "../../redux/features/admineSlice";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Header = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const AdmineLogout =()=>{
+  const AdmineLogout = () => {
     axiosInstance.get("api/admine/logout")
-    .then(res=>{
-       alert(res.data.message)
-       dispatch(clearAdmine())
-       navigate("")
+      .then(res => {
+        dispatch(clearAdmine())
+        toast.success("Admine Loggout Successful!")
+        navigate("/admine/login")
 
-    })
-    .catch(err=>{
+      })
+      .catch(err => {
 
-    })
+      })
   }
   return (
     <header className=" text-white shadow-lg bg-primary">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="container mx-auto flex items-center justify-between p-4 ">
+       
         {/* Left - Logo & Menu */}
         <div className="flex items-center space-x-4">
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            <FaBars size={24} />
-          </button>
+          <FaBars size={24} />
+
+        </button>
           <h1 className="text-2xl font-bold">Vibbora Admin</h1>
         </div>
 
@@ -61,7 +65,7 @@ const Header = () => {
           )}
         </div>
       </div>
-    </header>
+    </header >
   );
 };
 
