@@ -7,16 +7,22 @@ const AdminHomePage = () => {
     orders: 0,
     revenue: 0,
     products: 0,
+    pending:0,
+    delivered:0,
   });
   const [orders, setOrders] = useState()
 
   const admineDashBoard = () => {
     axiosInstance.get("/api/admine/admine-dashboard")
       .then(res => {
+        console.log(res.data)
         setStats({
           users: res.data.data.totalUsers,
           orders: res.data.data.totalOrders,
-          products: res.data.data.totalProducts
+          products: res.data.data.totalProducts,
+          pending : res.data.data.pendingOrders,
+          delivered : res.data.data.deliveredOrders,
+          revenue:res.data.data.totalSales[0].total
         })
       })
       .catch(error => {
@@ -65,6 +71,14 @@ const AdminHomePage = () => {
         <div className="card bg-red-500 text-white p-6 rounded-lg">
           <h2 className="text-lg">Total Products</h2>
           <p className="text-2xl font-bold">{stats.products}</p>
+        </div>
+        <div className="card bg-orange-500 text-white p-6 rounded-lg">
+          <h2 className="text-lg">Pending Orders</h2>
+          <p className="text-2xl font-bold">{stats.pending}</p>
+        </div>
+        <div className="card bg-violet-500 text-white p-6 rounded-lg">
+          <h2 className="text-lg">Delivered Orders</h2>
+          <p className="text-2xl font-bold">{stats.delivered}</p>
         </div>
       </div>
 

@@ -68,7 +68,6 @@ function CartPage() {
   };
 
 
-  // ✅ Make payment
   const makePayment = async () => {
     try {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
