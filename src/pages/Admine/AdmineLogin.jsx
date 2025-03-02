@@ -81,7 +81,9 @@ const AdminLoginPage = () => {
     setLoading(true);
     try {
       const res = await axiosInstance.post("/api/admine/login", data);
-      if(res.data.message=="Admine Not Exist"){
+      console.log(res.data)
+
+      if(res.data.message=="Admine Does Not Exist"){
         return toast.error(res.data.message)
       }
       toast.success("Admine Login successful!");

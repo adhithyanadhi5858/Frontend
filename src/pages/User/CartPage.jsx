@@ -61,7 +61,6 @@ function CartPage() {
   const clearCart = () => {
     axiosInstance.delete("/api/cart/clear-cart")
       .then(res => {
-        console.log("Cart Cleared:", res.data);
         setCart([]);  // Clear cart state in frontend
       })
       .catch(err => console.log("Error clearing cart:", err));
