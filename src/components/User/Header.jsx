@@ -43,7 +43,7 @@ function Header() {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="text-xl font-bold tracking-wide hover:opacity-80 transition">
-          Vibbora
+          VIBBORA
         </Link>
 
         {/* Desktop Navigation */}

@@ -17,15 +17,16 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await axiosInstance.post("/api/user/login", data);
-      dispatch(saveUser(res.data.user));
       if(res.data.message=="User Does Not Exist"){
         return toast.error(res.data.message)
       }
-
+      
       toast.success("Logged successful!");
-
+      dispatch(saveUser(res.data.user));
       setTimeout(() => navigate("/user/profile"), 2000);
+
     } catch (error) {
+
       dispatch(clearUser());
       toast.error(error.response?.data?.message || "Login Failed");
       console.error(error);

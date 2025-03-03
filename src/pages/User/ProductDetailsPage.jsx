@@ -17,6 +17,7 @@ const ProductDetails = () => {
     setLoading(true);
     try {
       const res = await axiosInstance.get(`/api/products/product-details/${productId}`);
+      console.log(res.data)
       setProduct(res.data.product);
     } catch (err) {
       setError("Product not found.");
@@ -114,9 +115,13 @@ const ProductDetails = () => {
 
           {/* Buttons */}
           <div className="mt-6 flex space-x-4">
-            <button onClick={addToCart} className="btn btn-primary">Add to Cart</button>
+           {product?.quantity < 0 ? (<button  className="btn btn-primary">Out Of stock</button>) 
+            :
+            (<button onClick={addToCart} className="btn btn-primary">Add to Cart</button>)
+           }
             <button onClick={addToWishlist} className="btn btn-accent">Add To Wishlist</button>
           </div>
+
         </div>
       </div>
 

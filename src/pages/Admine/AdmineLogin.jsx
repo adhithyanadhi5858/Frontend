@@ -81,13 +81,18 @@ const AdminLoginPage = () => {
     setLoading(true);
     try {
       const res = await axiosInstance.post("/api/admine/login", data);
-      console.log(res.data)
+      console.log(res.data.user)
 
       if(res.data.message=="Admine Does Not Exist"){
         return toast.error(res.data.message)
       }
+      if(res.data.message=="Password Not Match"){
+        
+        return toast.error(res.data.message)
+      }
+
       toast.success("Admine Login successful!");
-      dispatch(saveAdmine(res.data));
+      dispatch(saveAdmine(res.data.user));
 
       setTimeout(() => navigate("/admine/profile"), 2000);
 

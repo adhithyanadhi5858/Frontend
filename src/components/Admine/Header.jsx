@@ -16,8 +16,8 @@ const Header = () => {
   const AdmineLogout = () => {
     axiosInstance.get("api/admine/logout")
       .then(res => {
-        dispatch(clearAdmine());
         toast.success("Admin Logout Successful!");
+        dispatch(clearAdmine());
         navigate("/admine/login");
       })
       .catch(err => {
@@ -35,12 +35,12 @@ const Header = () => {
           <button className="md:hidden" onClick={() => setNavOpen(!navOpen)}>
             <FaBars size={24} />
           </button>
-          <h1 className="text-2xl font-bold">Vibbora Admin</h1>
+          <h1 className="text-2xl font-bold">VIBBORA Admin</h1>
         </div>
 
         {/* Center - Navigation Links */}
         <nav
-          className={`absolute md:relative top-16 left-0 w-full md:w-auto md:flex flex-col md:flex-row bg-primary md:bg-transparent transition-all duration-300 z-50 ${
+          className={`absolute md:relative top-16 left-0 w-full md:w-auto md:flex flex-col md:flex-row bg-primary md:bg-transparent transition-all duration-300 z-50 pb-16 ${
             navOpen ? "block" : "hidden md:flex"
           }`}
         >

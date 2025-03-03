@@ -44,12 +44,8 @@ const PaymentSuccess = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md text-center">
-        
-        {animationData ? (
+  
           <Lottie animationData={animationData} loop={false} className="w-40 h-40 mx-auto" />
-        ) : (
-          <p>Loading animation...</p>
-        )}
 
         <h2 className="text-2xl font-bold text-green-600 mt-4">Payment Successful!</h2>
         <p className="text-gray-600 mt-2">Thank you for your purchase. Your order is confirmed.</p>
