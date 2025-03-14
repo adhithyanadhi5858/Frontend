@@ -33,6 +33,12 @@ function BaseHeader() {
                             <li>
                                 <Link className="btn btn-ghost text-md text-neutral-content" to={"/login"}>Sign In</Link>
                             </li>
+                            <li >
+                                <Link className="btn btn-ghost text-md text-neutral-content" to={"/products"}>Products</Link>
+                            </li>
+                            <li >
+                                <Link className="btn btn-ghost text-md text-neutral-content" to={"/about"}>About</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex-1">

@@ -22,9 +22,7 @@ const ProfilePage = () => {
           name: res.data.name,
           email: res.data.email,
           image: res.data.image || "",
-        });
-        console.log(res.data);
-        
+        });        
       })   
       .catch(error => {
         console.log(error);

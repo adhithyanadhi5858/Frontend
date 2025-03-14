@@ -13,7 +13,6 @@ function CartPage() {
     axiosInstance.get("/api/cart/all-cart-items")
       .then(res => {
         setCart(res.data)
-        console.log(res.data)
       })
       .catch(err => {
         console.log("Error==", err)
@@ -83,7 +82,6 @@ function CartPage() {
       });
 
       const result = stripe.redirectToCheckout({ sessionId: session.data.sessionId });
-      console.log(result)
 
       if (result.error) {
         console.log("Stripe Checkout Error:", result.error);
