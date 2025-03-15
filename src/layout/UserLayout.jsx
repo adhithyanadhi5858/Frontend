@@ -116,30 +116,35 @@ import { Outlet, useLocation } from "react-router-dom";
 import BaseHeader from "../components/User/BaseHeader";
 import { axiosInstance } from "../config/axiosInstance";
 import { useSelector, useDispatch } from "react-redux";
-import { saveUser } from "../redux/features/userSlice";
+import { saveUser, logout } from "../redux/features/userSlice";
 
 function UserLayout() {
   const { isUserAuth } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(true);
+  const [justLoggedOut, setJustLoggedOut] = useState(false); // Prevents re-fetching after logout
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(() => {
-    // Fetch user authentication status from the backend
+    if (justLoggedOut) {
+      setJustLoggedOut(false); // Reset flag after handling logout
+      setIsLoading(false);
+      return;
+    }
+
     axiosInstance
       .get("/api/user/check")
       .then((res) => {
-        dispatch(saveUser(res.data)); // Update Redux state with authenticated user
+        dispatch(saveUser(res.data)); // Update Redux state if user is authenticated
       })
       .catch(() => {
         console.log("User is not authenticated");
+        dispatch(logout()); // Ensure user state is false
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
-
-  console.log("User Authentication =====", isUserAuth);
+  }, [location.pathname]);
 
   return isLoading ? null : (
     <>
@@ -158,3 +163,4 @@ function UserLayout() {
 }
 
 export default UserLayout;
+
