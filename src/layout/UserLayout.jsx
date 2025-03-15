@@ -26,6 +26,7 @@ function UserLayout() {
         setIsLoading(false)
       })
   }
+  console.log("User Authentication =====",isUserAuth)
 
   useEffect(() => {
     checkUser()
