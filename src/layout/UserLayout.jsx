@@ -86,7 +86,7 @@ function UserLayout() {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [location.pathname]);
 
   console.log("User Authentication =====", isUserAuth);
 
