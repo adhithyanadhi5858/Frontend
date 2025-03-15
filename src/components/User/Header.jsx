@@ -20,7 +20,7 @@ function Header() {
       .then(res => {
         toast.success(res.data.message);
         dispatch(clearUser());
-        navigate("/login");
+        navigate("/login",{replace:true});
       })
       .catch(error => {
         console.log(error);
