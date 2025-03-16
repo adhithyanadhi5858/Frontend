@@ -116,7 +116,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import BaseHeader from "../components/User/BaseHeader";
 import { axiosInstance } from "../config/axiosInstance";
 import { useSelector, useDispatch } from "react-redux";
-import { saveUser, logout } from "../redux/features/userSlice";
+import { saveUser, clearUser } from "../redux/features/userSlice";
 
 function UserLayout() {
   const { isUserAuth } = useSelector((state) => state.user);
@@ -137,9 +137,9 @@ function UserLayout() {
       .then((res) => {
         dispatch(saveUser(res.data)); // Update Redux state if user is authenticated
       })
-      .catch(() => {
+      .catch((err) => {
         console.log("User is not authenticated");
-        dispatch(logout()); // Ensure user state is false
+        dispatch(clearUser()); // Ensure user state is false
       })
       .finally(() => {
         setIsLoading(false);

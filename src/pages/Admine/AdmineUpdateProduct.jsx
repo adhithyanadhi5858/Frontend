@@ -20,7 +20,7 @@ const AdminUpdateProduct = () => {
     const fetchProductById = async () => {
       try {
         const res = await axiosInstance.get(`api/products/product-details/${productId}`);
-        setProduct(res.data);
+        setProduct(res.data.product);
       } catch (err) {
         setError("Failed to fetch product details");
         toast.error("Failed to fetch product details");
@@ -66,7 +66,7 @@ const AdminUpdateProduct = () => {
   };
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
+    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg mt-12 mb-12">
       <Toaster position="top-center" reverseOrder={false} />
       <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Update Product</h2>
       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
@@ -74,7 +74,7 @@ const AdminUpdateProduct = () => {
       <div className="space-y-4">
         <input type="text" name="title" value={product.title || ""} onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
-          placeholder="Product Name" />
+          placeholder={product.title} />
 
         <input type="number" name="price" value={product.price || ""} onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"

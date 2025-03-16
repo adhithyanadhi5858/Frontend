@@ -16,9 +16,9 @@ const Header = () => {
   const AdmineLogout = () => {
     axiosInstance.get("api/admine/logout")
       .then(res => {
-        toast.success("Admin Logout Successful!");
         dispatch(clearAdmine());
-        navigate("/admine/login");
+        toast.success("Admin Logout Successful!");
+        navigate("admine/login");
       })
       .catch(err => {
         toast.error("Logout failed!");
